@@ -1,10 +1,23 @@
-Bankruptcy Prediction
-A machine-learning project that predicts whether a company is likely to
-go bankrupt based on selected financial indicators. The project combines
-a Logistic Regression pipeline, a Flask web application, MySQL storage
-for submitted inputs and predictions, and a Power BI report.
-Project Structure
-``` text
+# Bankruptcy Prediction
+
+A machine learning project that predicts corporate bankruptcy using financial indicators. It combines a **Scikit-learn Logistic Regression pipeline**, a **Flask web application**, **MySQL** database integration, and a **Power BI dashboard**.
+
+## Project Overview
+
+The project covers the complete machine learning workflow, from financial data preprocessing and feature selection to model training, evaluation, and web application integration.
+
+### Technologies
+
+* **Language:** Python
+* **Machine Learning:** Scikit-learn, Logistic Regression
+* **Data Analysis:** Pandas, NumPy, Matplotlib, Seaborn
+* **Web Framework:** Flask
+* **Database:** MySQL
+* **Visualization:** Power BI
+
+## Project Structure
+
+```text
 .
 ├── static/
 │   ├── style.css
@@ -18,132 +31,168 @@ Project Structure
 ├── model.pkl
 ├── server.py
 ├── requirements.txt
-├── README.md
-├── .env                 # local secrets; do not commit
-└── .gitignore
+└── README.md
 ```
-`data.csv` --- original dataset.
-`bankruptcy_model_data.csv` --- processed dataset used for modeling.
-`bank.ipynb` --- exploratory analysis, feature selection, model
-training, and evaluation.
-`model.pkl` --- serialized fitted scikit-learn pipeline loaded by
-the web application.
-`server.py` --- Flask application and prediction endpoint.
-`templates/main.html`, `static/style.css`, `static/script.js` ---
-web interface files.
-`Bankruptcy1.pbix` --- Power BI report file.
-Workflow
-Feature analysis: Variance Inflation Factor (VIF) was used to
-identify features with high multicollinearity. Features with high
-VIF values were removed.
-Correlation analysis: Feature correlations were reviewed and
-additional features considered weakly informative for the model were
-removed.
-Preprocessing: The selected features were exported to
-`bankruptcy_model_data.csv` and then loaded for model development.
-Model pipeline: `StandardScaler` and `LogisticRegression` were
-combined in a scikit-learn `Pipeline`.
-Hyperparameter tuning: `GridSearchCV` evaluated 16 combinations
-using 5-fold `StratifiedKFold` cross-validation, optimizing the
-F1-score.
-Decision threshold selection: A threshold was selected from the
-precision-recall curve subject to a minimum precision target of
-0.40.
-Deployment: The saved pipeline is loaded by Flask and used to
-return a bankruptcy prediction. Submitted inputs and predictions are
-stored in MySQL when the database is available.
-Best hyperparameters
-`C`: `0.1`
-`solver`: `lbfgs`
-`class_weight`: `balanced`
-Best cross-validation F1-score: 0.2674
-Evaluation Results
-The reported evaluation used 1,364 test observations, including 44
-positive (`Class 1`) cases.
-Metric                 Class 1 result
----
-Precision                      0.5000
-Recall                         0.4318
-F1-score                       0.4634
-Selected threshold             0.9205
-Overall accuracy               0.9677
-Confusion matrix:
-``` text
-[[1301   19]
- [  25   19]]
+
+### Key Files
+
+| File                        | Description                                                |
+| --------------------------- | ---------------------------------------------------------- |
+| `data.csv`                  | Original dataset                                           |
+| `bankruptcy_model_data.csv` | Processed dataset used for modeling                        |
+| `bank.ipynb`                | Data analysis, feature selection, training, and evaluation |
+| `model.pkl`                 | Serialized trained machine learning pipeline               |
+| `server.py`                 | Flask application and prediction endpoint                  |
+| `Bankruptcy1.pbix`          | Power BI report                                            |
+| `templates/main.html`       | Web interface                                              |
+| `static/style.css`          | Interface styling                                          |
+| `static/script.js`          | Client-side functionality                                  |
+| `requirements.txt`          | Python dependencies                                        |
+
+## Machine Learning Workflow
+
+### 1. Feature Selection
+
+* Used Variance Inflation Factor (VIF) to identify features with high multicollinearity.
+* Analyzed feature correlations and removed selected features considered less informative.
+
+### 2. Data Preprocessing
+
+Prepared the selected financial indicators and exported the processed dataset to `bankruptcy_model_data.csv`.
+
+### 3. Model Training
+
+Built a Scikit-learn pipeline combining:
+
+* `StandardScaler`
+* `LogisticRegression`
+
+Used `GridSearchCV` with 5-fold `StratifiedKFold` cross-validation to optimize the F1-score.
+
+### 4. Best Hyperparameters
+
+| Parameter                      | Selected Value |
+| ------------------------------ | -------------- |
+| `C`                            | `0.1`          |
+| `solver`                       | `lbfgs`        |
+| `class_weight`                 | `balanced`     |
+| Best Cross-Validation F1-score | `0.2674`       |
+
+### 5. Decision Threshold
+
+Selected a decision threshold of **0.9205** based on the precision-recall curve, subject to a minimum precision target of 0.40.
+
+## Model Evaluation
+
+The test set contained **1,364 observations**, including 44 positive cases belonging to Class 1.
+
+| Metric              | Result |
+| ------------------- | -----: |
+| Precision (Class 1) | 0.5000 |
+| Recall (Class 1)    | 0.4318 |
+| F1-score (Class 1)  | 0.4634 |
+| Overall Accuracy    | 0.9677 |
+| Selected Threshold  | 0.9205 |
+
+### Confusion Matrix
+
+```text
+                 Predicted
+                 0       1
+Actual 0       1301     19
+Actual 1         25     19
 ```
-Because the positive class is relatively rare, accuracy alone does not
-fully describe the model's ability to identify companies at risk of
-bankruptcy. Precision, recall, and F1-score for Class 1 are important
-when interpreting the results.
-Evaluation note: In the current notebook code, the decision
-threshold is selected using `X_test` and `y_test`, and performance is
-then reported on that same test set. This can make the reported test
-metrics optimistic. For a more robust final evaluation, select the
-threshold using a separate validation set or out-of-fold predictions,
-and keep the test set untouched until final evaluation.
-Web Application
+
+Because bankruptcy cases are relatively rare in the dataset, accuracy alone does not adequately measure the model's ability to identify at-risk companies. Precision, recall, and F1-score provide additional insight into its performance on the positive class.
+
+> **Evaluation note:** The current notebook selects the decision threshold using the test set and evaluates performance on that same set. This can lead to optimistic performance estimates. A separate validation set or out-of-fold predictions should be used for threshold selection before final evaluation on an untouched test set.
+
+## Web Application
+
 The Flask application provides:
-A home page rendered from `templates/main.html`.
-A `POST /predict` endpoint that accepts JSON financial inputs and
-returns a prediction and message.
-A MySQL table named `financial_inputs` for storing company inputs,
-the prediction, and the timestamp.
-USD-to-CNY conversion for the two per-share fields, using the
-Frankfurter API with a fallback rate of `7.3` if the request fails.
-The app expects the serialized model file to be named `model.pkl` and
-located in the project root.
-Setup
-1. Create and activate a virtual environment
-``` bash
+
+* A web interface for submitting financial indicators.
+* A `POST /predict` endpoint that returns a bankruptcy prediction.
+* MySQL integration for storing submitted inputs, predictions, and timestamps.
+* USD-to-CNY conversion using the Frankfurter API, with a fallback exchange rate of `7.3`.
+
+The application expects `model.pkl` to be present in the project root.
+
+## Installation and Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/bankruptcy-prediction.git
+cd bankruptcy-prediction
+```
+
+Replace `YOUR_USERNAME` with your GitHub username.
+
+### 2. Create a Virtual Environment
+
+```bash
 python -m venv .venv
 ```
-Windows:
-``` bash
+
+Activate it on Windows:
+
+```bash
 .venv\Scripts\activate
 ```
-macOS/Linux:
-``` bash
-source .venv/bin/activate
-```
-2. Install dependencies
-``` bash
+
+### 3. Install Dependencies
+
+```bash
 pip install -r requirements.txt
 ```
-3. Configure environment variables
-Create a local `.env` file in the project root:
-``` env
+
+### 4. Configure Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
 DB_HOST=localhost
 DB_USER=your_mysql_username
 DB_PASSWORD=your_mysql_password
 DB_NAME=your_database_name
 ```
-Create the database named by `DB_NAME` in MySQL before starting the app.
-The application attempts to create the `financial_inputs` table at
-startup. Keep `.env` out of version control.
-4. Add the trained model
-Ensure `model.pkl` exists in the project root. It must contain the
-fitted pipeline expected by `server.py`.
-5. Run the application
-``` bash
+
+Create the corresponding database in MySQL before starting the application.
+
+**Security:** Never commit your `.env` file or expose database credentials publicly.
+
+### 5. Start the Application
+
+Ensure that `model.pkl` exists in the project root, then run:
+
+```bash
 python server.py
 ```
-Open `http://127.0.0.1:5000` in your browser.
-Dataset
-The original and processed CSV files are included in the repository. The
-dataset source and license should be added here before public release.
-Limitations
-This is a machine-learning project and should not be treated as a
-definitive financial or investment decision tool.
-The model's performance depends on the dataset, feature selection,
-and class imbalance.
-The web app currently uses a fallback exchange rate if the currency
-API is unavailable.
-Database storage is best-effort: prediction responses may still be
-returned if inserting a record into MySQL fails.
-Future Improvements
-Evaluate threshold selection with a separate validation set.
-Compare Logistic Regression with additional classification models.
-Add calibration and more detailed risk explanations.
-Document the dataset source, licensing, and data dictionary.
-Add automated tests and deployment configuration.
+
+Open the following address in your browser:
+
+`http://127.0.0.1:5000`
+
+## Dataset
+
+The repository includes the original and processed CSV files used in the project.
+
+The dataset's original source and license should be documented before the project is used for further research or commercial purposes.
+
+## Limitations
+
+* The dataset has an imbalanced target distribution.
+* Model performance depends on feature selection, data quality, and the decision threshold.
+* Threshold selection should be validated using data separate from the final test set.
+* The application uses a fallback exchange rate if the currency API is unavailable.
+* MySQL storage may fail independently of prediction generation.
+* Predictions should not be treated as definitive financial or investment advice.
+
+## Future Improvements
+
+* Evaluate threshold selection using a separate validation set.
+* Compare Logistic Regression with other classification algorithms.
+* Improve probability calibration and risk explanations.
+* Document the dataset source, license, and feature definitions.
+* Add automated tests and deployment configuration.
