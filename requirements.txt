@@ -1,0 +1,16 @@
+# Web application
+Flask
+flask-cors
+joblib
+pandas
+mysql-connector-python
+python-dotenv
+requests
+
+# Machine learning and notebook analysis
+numpy
+scikit-learn
+statsmodels
+matplotlib
+seaborn
+jupyter

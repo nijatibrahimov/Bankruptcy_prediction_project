@@ -1,0 +1,71 @@
+<!-- templates/main.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Model Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+</head>
+<body>
+    <div id="star-container"></div>
+
+    <div class="container">
+        <h1>Financial Model Prediction</h1>
+
+<form id="prediction-form">
+    <label for="company_name">Company Name:</label>
+    <input type="text" name="company_name" placeholder="Your company name">
+
+    <label>ROA (before interest and depreciation):</label>
+    <input name=" ROA(C) before interest and depreciation before interest" type="number" step="any" placeholder="0.03 - 0.15" required>
+
+    <label>Net worth / Assets:</label>
+    <input name=" Net worth/Assets" type="number" step="any" placeholder="0.2 - 0.8" required>
+
+    <label>Retained Earnings / Total Assets:</label>
+    <input name=" Retained Earnings to Total Assets" type="number" step="any" placeholder="0.1 - 0.6" required>
+
+    <label>Per Share Net profit before tax (USD $):</label>
+    <input name=" Per Share Net profit before tax (Yuan ¥)" type="number" step="any" placeholder="0.5 - 5.0" required>
+
+    <label>Net Income to Stockholder's Equity:</label>
+    <input name=" Net Income to Stockholder's Equity" type="number" step="any" placeholder="0.05 - 0.25" required>
+
+    <label>Current Liability / Current Assets:</label>
+    <input name=" Current Liability to Current Assets" type="number" step="any" placeholder="0.2 - 0.9" required>
+
+    <label>Net Value Per Share (B):</label>
+    <input name=" Net Value Per Share (B)" type="number" step="any" placeholder="1.0 - 10.0" required>
+
+    <label>Operating Profit Per Share (USD $):</label>
+    <input name=" Operating Profit Per Share (Yuan ¥)" type="number" step="any" placeholder="0.5 - 4.0" required>
+
+    <label>Liability-Assets Flag:</label>
+    <input name=" Liability-Assets Flag" type="number" step="any" placeholder="0 = normal, 1 = risky" required>
+
+    <label>Total expense / Assets:</label>
+    <input name=" Total expense/Assets" type="number" step="any" placeholder="0.1 - 0.5" required>
+
+    <label>Equity to Long-term Liability:</label>
+    <input name=" Equity to Long-term Liability" type="number" step="any" placeholder="0.3 - 2.0" required>
+
+    <label>CFO to Assets:</label>
+    <input name=" CFO to Assets" type="number" step="any" placeholder="0.05 - 0.3" required>
+
+    <label>Tax rate (A):</label>
+    <input name=" Tax rate (A)" type="number" step="any" placeholder="0.1 - 0.35" required>
+
+    <label>Cash / Total Assets:</label>
+    <input name=" Cash/Total Assets" type="number" step="any" placeholder="0.05 - 0.4" required>
+
+    <button type="submit">Predict</button>
+    <div id="result"></div>
+
+</form>
+
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

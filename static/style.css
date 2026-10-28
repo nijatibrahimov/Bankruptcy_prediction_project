@@ -1,0 +1,135 @@
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    background: rgb(255, 255, 255, 0.2);
+    padding: 20px;
+    margin-bottom: 100px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: rgba(110, 148, 189, 0.9);
+}
+
+input {
+    color:rgb(255, 255, 255,0.8);
+    width: 100%;
+    font-size: medium;
+    padding: 8px 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid rgb(204, 204, 204, 0.2);
+    background-color:rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+}
+::placeholder{
+    color:rgb(255, 255, 255, 0.25)
+}
+button {
+    margin-top: 30px;
+    width: 100%;
+    font-size: large;
+    padding: 12px;
+    background-color: rgb(39, 174, 96);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: rgb(33, 145, 80);
+    transition: background-color 0.3s ease;
+}
+
+#result {
+    max-width: 500px;
+    margin: 20px auto;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+        :root {
+            --bg: #0b0f14;
+            --panel: rgba(255, 255, 255, 0.06);
+            --text: #e8edf2;
+            --muted: #aab9c6;
+            --brand: #7c3aed;
+            --brand2: #06b6d4;
+            --radius: 18px;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(1200px 800px at 80% 10%, rgba(124, 58, 237, .25), transparent 60%),
+                radial-gradient(1000px 700px at 10% 90%, rgba(6, 182, 212, .22), transparent 55%),
+                var(--bg);
+            color: var(--text);
+            font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+            /* Big body height for scrolling */
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+a {
+  color: #e8edf2;
+}
+
+        #star-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: twinkle var(--duration, 3s) infinite ease-in-out;
+            will-change: transform, opacity;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Demo Content Styling */
+        .content {
+            position: relative;
+            z-index: 1;
+            padding: 100px 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #d2e1ff 30%, var(--brand2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+       
